@@ -1,3 +1,4 @@
+import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'location.g.dart';
@@ -18,7 +19,7 @@ enum LocationType {
 }
 
 @JsonSerializable()
-class Location {
+class Location extends Equatable {
   const Location({
     required this.title,
     required this.locationType,
@@ -35,13 +36,19 @@ class Location {
   @LatLngConverter()
   final LatLng latLng;
   final int woeid;
+
+  @override
+  List<Object?> get props => [title, locationType, latLng, woeid];
 }
 
-class LatLng {
+class LatLng extends Equatable {
   const LatLng({required this.latitude, required this.longitude});
 
   final double latitude;
   final double longitude;
+
+  @override
+  List<Object?> get props => [latitude, longitude];
 }
 
 class LatLngConverter implements JsonConverter<LatLng, String> {
