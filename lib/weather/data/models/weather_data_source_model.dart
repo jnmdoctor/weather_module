@@ -1,3 +1,4 @@
+import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'weather_data_source_model.g.dart';
@@ -51,7 +52,7 @@ enum WindDirectionCompass {
 }
 
 @JsonSerializable()
-class WeatherDataSourceModel {
+class WeatherDataSourceModel extends Equatable {
   const WeatherDataSourceModel({
     required this.id,
     required this.weatherStateName,
@@ -90,4 +91,23 @@ class WeatherDataSourceModel {
   final int humidity;
   final double visibility;
   final int predictability;
+
+  @override
+  List<Object?> get props => [
+        id,
+        weatherStateName,
+        weatherStateAbbr,
+        windDirectionCompass,
+        created,
+        applicableDate,
+        minTemp,
+        maxTemp,
+        theTemp,
+        windSpeed,
+        windDirection,
+        airPressure,
+        humidity,
+        visibility,
+        predictability
+      ];
 }
