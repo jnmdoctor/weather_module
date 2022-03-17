@@ -56,65 +56,70 @@ void main() {
 
   const String tValidCityName = 'SampleValidCity';
 
-  test('Repository should return data from the data source', () async {
-    when(() => mockWeatherInformationDataSource.getLocationFromCity(
-        tValidCityName)).thenAnswer((_) async => tLocation);
-    when(() =>
-            mockWeatherInformationDataSource.getWeatherFromLocationId(tWoeId))
-        .thenAnswer((_) async => tWeatherDataSourceModel);
+  group('getWeatherForCity', () {
+    test('should return data from the data source when called successfully',
+        () async {
+      when(() => mockWeatherInformationDataSource.getLocationFromCity(
+          tValidCityName)).thenAnswer((_) async => tLocation);
+      when(() =>
+              mockWeatherInformationDataSource.getWeatherFromLocationId(tWoeId))
+          .thenAnswer((_) async => tWeatherDataSourceModel);
 
-    final result = await systemUnderTest.getWeatherForCity(tValidCityName);
+      final result = await systemUnderTest.getWeatherForCity(tValidCityName);
 
-    result.fold((failure) => expect(failure, null), (weather) {
-      expect(_areWeathersEqualExceptLastUpdated(weather, tWeather), true);
+      result.fold((failure) => expect(failure, null), (weather) {
+        expect(_areWeathersEqualExceptLastUpdated(weather, tWeather), true);
+      });
+
+      verify(() => mockWeatherInformationDataSource
+          .getLocationFromCity(tValidCityName)).called(1);
+      verify(() =>
+              mockWeatherInformationDataSource.getWeatherFromLocationId(tWoeId))
+          .called(1);
     });
 
-    verify(() => mockWeatherInformationDataSource
-        .getLocationFromCity(tValidCityName)).called(1);
-    verify(() =>
-            mockWeatherInformationDataSource.getWeatherFromLocationId(tWoeId))
-        .called(1);
-  });
+    test(
+        'should return ServerFailure when getLocationFromCity throws ServerException',
+        () async {
+      when(() => mockWeatherInformationDataSource.getLocationFromCity(
+          tValidCityName)).thenAnswer((_) async => throw ServerException());
+      when(() =>
+              mockWeatherInformationDataSource.getWeatherFromLocationId(tWoeId))
+          .thenAnswer((_) async => tWeatherDataSourceModel);
+      final result = await systemUnderTest.getWeatherForCity(tValidCityName);
 
-  test(
-      'Repository should return ServerFailure when getLocationFromCity throws ServerException',
-      () async {
-    when(() => mockWeatherInformationDataSource.getLocationFromCity(
-        tValidCityName)).thenAnswer((_) async => throw ServerException());
-    when(() =>
-            mockWeatherInformationDataSource.getWeatherFromLocationId(tWoeId))
-        .thenAnswer((_) async => tWeatherDataSourceModel);
-    final result = await systemUnderTest.getWeatherForCity(tValidCityName);
+      result.fold((failure) => expect(failure, isA<ServerFailure>()),
+          (weather) {
+        expect(weather, null);
+      });
 
-    result.fold((failure) => expect(failure, isA<ServerFailure>()), (weather) {
-      expect(weather, null);
+      verify(() => mockWeatherInformationDataSource
+          .getLocationFromCity(tValidCityName)).called(1);
+      verifyNever(() =>
+          mockWeatherInformationDataSource.getWeatherFromLocationId(tWoeId));
     });
 
-    verify(() => mockWeatherInformationDataSource
-        .getLocationFromCity(tValidCityName)).called(1);
-    verifyNever(() =>
-        mockWeatherInformationDataSource.getWeatherFromLocationId(tWoeId));
-  });
+    test(
+        'should return ServerFailure when getWeatherFromLocationId throws ServerException',
+        () async {
+      when(() => mockWeatherInformationDataSource.getLocationFromCity(
+          tValidCityName)).thenAnswer((_) async => tLocation);
+      when(() =>
+              mockWeatherInformationDataSource.getWeatherFromLocationId(tWoeId))
+          .thenAnswer((_) async => throw ServerException());
+      final result = await systemUnderTest.getWeatherForCity(tValidCityName);
 
-  test(
-      'Repository should return ServerFailure when getWeatherFromLocationId throws ServerException',
-      () async {
-    when(() => mockWeatherInformationDataSource.getLocationFromCity(
-        tValidCityName)).thenAnswer((_) async => tLocation);
-    when(() =>
-            mockWeatherInformationDataSource.getWeatherFromLocationId(tWoeId))
-        .thenAnswer((_) async => throw ServerException());
-    final result = await systemUnderTest.getWeatherForCity(tValidCityName);
+      result.fold((failure) => expect(failure, isA<ServerFailure>()),
+          (weather) {
+        expect(weather, null);
+      });
 
-    result.fold((failure) => expect(failure, isA<ServerFailure>()), (weather) {
-      expect(weather, null);
+      verify(() => mockWeatherInformationDataSource
+          .getLocationFromCity(tValidCityName)).called(1);
+      verify(() =>
+              mockWeatherInformationDataSource.getWeatherFromLocationId(tWoeId))
+          .called(1);
     });
-
-    verify(() => mockWeatherInformationDataSource
-        .getLocationFromCity(tValidCityName)).called(1);
-    verify(() =>
-            mockWeatherInformationDataSource.getWeatherFromLocationId(tWoeId))
-        .called(1);
   });
 }
 

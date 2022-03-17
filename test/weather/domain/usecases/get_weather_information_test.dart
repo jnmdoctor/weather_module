@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:dartz/dartz.dart';
+import 'package:weather_module/core/error/failures.dart';
 import 'package:weather_module/weather/domain/repositories/weather_information_repository.dart';
 import 'package:weather_module/weather/domain/usecases/get_weather_information.dart';
 import 'package:weather_module/weather/domain/entities/weather.dart';
@@ -17,7 +18,7 @@ void main() {
     usecase = GetWeatherForCity(mockWeatherInformationRepository);
   });
 
-  final String tValidCityName = 'Sample Valid City';
+  const String tValidCityName = 'Sample Valid City';
   final DateTime dateWeatherRetrieved = DateTime.now();
   Temperature temperature = const Temperature(value: 10);
   final Weather tWeather = Weather(
@@ -26,19 +27,32 @@ void main() {
       location: 'Sample Location',
       temperature: temperature);
 
-  test('Should retrieve weather information from the repository', () async {
-    // arrange
-    when(() =>
-            mockWeatherInformationRepository.getWeatherForCity(tValidCityName))
-        .thenAnswer((_) async => Right(tWeather));
+  group('GetWeatherForCity', () {
+    test('should return weather information from the repository', () async {
+      when(() => mockWeatherInformationRepository.getWeatherForCity(
+          tValidCityName)).thenAnswer((_) async => Right(tWeather));
 
-    // act
-    final result = await usecase(WeatherForCityParams(city: tValidCityName));
+      final result =
+          await usecase(const WeatherForCityParams(city: tValidCityName));
 
-    // assert
-    expect(result, Right(tWeather));
-    verify(() =>
-        mockWeatherInformationRepository.getWeatherForCity(tValidCityName));
-    verifyNoMoreInteractions(mockWeatherInformationRepository);
+      expect(result, Right(tWeather));
+      verify(() =>
+          mockWeatherInformationRepository.getWeatherForCity(tValidCityName));
+      verifyNoMoreInteractions(mockWeatherInformationRepository);
+    });
+
+    test('should return ServerFailure when the repository returns a failure',
+        () async {
+      when(() => mockWeatherInformationRepository.getWeatherForCity(
+          tValidCityName)).thenAnswer((_) async => Left(ServerFailure()));
+
+      final result =
+          await usecase(const WeatherForCityParams(city: tValidCityName));
+
+      expect(result, Left(ServerFailure()));
+      verify(() =>
+          mockWeatherInformationRepository.getWeatherForCity(tValidCityName));
+      verifyNoMoreInteractions(mockWeatherInformationRepository);
+    });
   });
 }
