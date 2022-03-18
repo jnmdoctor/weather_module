@@ -1,1 +1,0 @@
-enum NavbarItem { weather, news }
