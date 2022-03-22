@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
-import 'package:weather_module/features/weather/data/models/location.dart';
-import 'package:weather_module/features/weather/data/models/weather_data_source_model.dart';
+import 'package:weather_module/features/weather/models/location_dto.dart';
+import 'package:weather_module/features/weather/models/weather_response.dart';
 
 part 'weather_information_client.g.dart';
 
@@ -19,12 +19,12 @@ abstract class WeatherInformationClient {
   factory WeatherInformationClient(Dio dio) = _WeatherInformationClient;
 
   @GET(_locationStringSearchEndpoint)
-  Future<HttpResponse<List<Location>>> getWeatherByCity({
+  Future<HttpResponse<List<LocationDto>>> getLocationByCity({
     @Query(query) required String city,
   });
 
   @GET('$_locationIdSearchEndpoint/{id}')
-  Future<HttpResponse<WeatherDataSourceModel>> getWeatherById({
+  Future<WeatherApiInformationResponse> getWeatherById({
     @Path() required int id,
   });
 }

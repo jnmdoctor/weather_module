@@ -3,7 +3,7 @@ import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:weather_module/core/platform_channels/weather_method_channel.dart';
 import 'package:weather_module/features/news/repositories/news_information_client.dart';
-import 'package:weather_module/features/weather/data/datasource/weather_information_client.dart';
+import 'package:weather_module/features/weather/repositories/weather_information_client.dart';
 import 'package:mocktail/mocktail.dart';
 
 //* These are all the classes that are mocked using `MockTail` for

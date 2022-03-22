@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 import 'package:weather_module/resources/theme/app_color.dart';
-import 'package:weather_module/features/weather/domain/entities/weather.dart';
+import 'package:weather_module/features/weather/models/weather.dart';
 
 @Injectable(env: [Environment.prod])
 class ThemeCubit extends Cubit<Color> {

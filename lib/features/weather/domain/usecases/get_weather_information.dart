@@ -4,8 +4,8 @@ import 'package:injectable/injectable.dart';
 import 'package:weather_module/core/error/failures.dart';
 import 'package:weather_module/core/usecases/usecase.dart';
 
-import '../entities/weather.dart';
-import '../repositories/weather_information_repository.dart';
+import '../../models/weather.dart';
+import '../../repositories/weather_information_repository.dart';
 
 @LazySingleton(env: [Environment.prod])
 class GetWeatherForCity extends UseCase<Weather, WeatherForCityParams> {

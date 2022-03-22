@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:weather_module/features/settings/presentation/views/settings.dart';
-import 'package:weather_module/features/weather/presentation/views/weather_page.dart';
+import 'package:weather_module/features/weather/views/weather_page.dart';
 
 class WeatherRouter {
   static const root = '/';

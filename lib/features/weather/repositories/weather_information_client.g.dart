@@ -16,40 +16,39 @@ class _WeatherInformationClient implements WeatherInformationClient {
   String? baseUrl;
 
   @override
-  Future<HttpResponse<List<Location>>> getWeatherByCity({required city}) async {
+  Future<HttpResponse<List<LocationDto>>> getLocationByCity(
+      {required city}) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{r'query': city};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     final _result = await _dio.fetch<List<dynamic>>(
-        _setStreamType<HttpResponse<List<Location>>>(
+        _setStreamType<HttpResponse<List<LocationDto>>>(
             Options(method: 'GET', headers: _headers, extra: _extra)
                 .compose(_dio.options, '/api/location/search/',
                     queryParameters: queryParameters, data: _data)
                 .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     var value = _result.data!
-        .map((dynamic i) => Location.fromJson(i as Map<String, dynamic>))
+        .map((dynamic i) => LocationDto.fromJson(i as Map<String, dynamic>))
         .toList();
     final httpResponse = HttpResponse(value, _result);
     return httpResponse;
   }
 
   @override
-  Future<HttpResponse<WeatherDataSourceModel>> getWeatherById(
-      {required id}) async {
+  Future<WeatherApiInformationResponse> getWeatherById({required id}) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<HttpResponse<WeatherDataSourceModel>>(
+        _setStreamType<WeatherApiInformationResponse>(
             Options(method: 'GET', headers: _headers, extra: _extra)
                 .compose(_dio.options, '/api/location/${id}',
                     queryParameters: queryParameters, data: _data)
                 .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = WeatherDataSourceModel.fromJson(_result.data!);
-    final httpResponse = HttpResponse(value, _result);
-    return httpResponse;
+    final value = WeatherApiInformationResponse.fromJson(_result.data!);
+    return value;
   }
 
   RequestOptions _setStreamType<T>(RequestOptions requestOptions) {

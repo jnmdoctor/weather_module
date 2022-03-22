@@ -4,8 +4,8 @@ import 'package:injectable/injectable.dart';
 import 'package:weather_module/core/platform_channels/weather_method_channel.dart';
 import 'package:weather_module/features/preferences/domain/repositories/preferences_repository.dart';
 
-import '../../domain/usecases/get_weather_information.dart';
-import '../../domain/entities/weather.dart';
+import '../domain/usecases/get_weather_information.dart';
+import '../models/weather.dart';
 
 part 'weather_state.dart';
 part 'weather_cubit.freezed.dart';

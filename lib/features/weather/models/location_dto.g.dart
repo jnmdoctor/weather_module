@@ -1,36 +1,32 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'location.dart';
+part of 'location_dto.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-Location _$LocationFromJson(Map<String, dynamic> json) => $checkedCreate(
-      'Location',
+_$_LocationDto _$$_LocationDtoFromJson(Map<String, dynamic> json) =>
+    $checkedCreate(
+      r'_$_LocationDto',
       json,
       ($checkedConvert) {
-        final val = Location(
+        final val = _$_LocationDto(
           title: $checkedConvert('title', (v) => v as String),
+          woeid: $checkedConvert('woeid', (v) => v as int),
           locationType: $checkedConvert(
               'location_type', (v) => $enumDecode(_$LocationTypeEnumMap, v)),
-          latLng: $checkedConvert('latt_long',
-              (v) => const LatLngConverter().fromJson(v as String)),
-          woeid: $checkedConvert('woeid', (v) => v as int),
         );
         return val;
       },
-      fieldKeyMap: const {
-        'locationType': 'location_type',
-        'latLng': 'latt_long'
-      },
+      fieldKeyMap: const {'locationType': 'location_type'},
     );
 
-Map<String, dynamic> _$LocationToJson(Location instance) => <String, dynamic>{
+Map<String, dynamic> _$$_LocationDtoToJson(_$_LocationDto instance) =>
+    <String, dynamic>{
       'title': instance.title,
-      'location_type': _$LocationTypeEnumMap[instance.locationType],
-      'latt_long': const LatLngConverter().toJson(instance.latLng),
       'woeid': instance.woeid,
+      'location_type': _$LocationTypeEnumMap[instance.locationType],
     };
 
 const _$LocationTypeEnumMap = {

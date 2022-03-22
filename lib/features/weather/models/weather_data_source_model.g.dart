@@ -6,13 +6,11 @@ part of 'weather_data_source_model.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-WeatherDataSourceModel _$WeatherDataSourceModelFromJson(
-        Map<String, dynamic> json) =>
-    $checkedCreate(
-      'WeatherDataSourceModel',
+WeatherDto _$WeatherDtoFromJson(Map<String, dynamic> json) => $checkedCreate(
+      'WeatherDto',
       json,
       ($checkedConvert) {
-        final val = WeatherDataSourceModel(
+        final val = WeatherDto(
           id: $checkedConvert('id', (v) => v as int),
           weatherStateName:
               $checkedConvert('weather_state_name', (v) => v as String),
@@ -58,8 +56,7 @@ WeatherDataSourceModel _$WeatherDataSourceModelFromJson(
       },
     );
 
-Map<String, dynamic> _$WeatherDataSourceModelToJson(
-        WeatherDataSourceModel instance) =>
+Map<String, dynamic> _$WeatherDtoToJson(WeatherDto instance) =>
     <String, dynamic>{
       'id': instance.id,
       'weather_state_name': instance.weatherStateName,
